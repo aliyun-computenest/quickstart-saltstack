@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="计算巢是阿里云开放给企业应用服务商的服务管理平台。服务商能够在计算巢上发布私有化部署服务，为其客户提供云上软件一键部署的能力；同时也支持全托管模式的服务，赋能服务商托管其客户资源。">
+  <title>SaltStack服务实例部署文档 - Aliyun 计算巢 x Demo</title>
+
+  <link rel="shortcut icon" href="img/favicon.ico">
+
+  <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+  <link rel="stylesheet" href="css/theme.css">
+  
+
+  
+
+  
+  
+
+  
+    <script src="search/main.js"></script>
+  
+
+  
+
+  <script src="js/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+</head>
+
+<body>
+  <div class="container">
+    <div class="nav">
+      <div class="nav-inner">
+        <div class="logo">
+          <img src="./img/logo-2x.png">
+        </div>
+        <div class="nav-list">
+          <ul>
+          
+              <li><a href="#saltstack">SaltStack服务实例部署文档</a></li>
+              
+                  <li><a href="#_1">概述</a></li>
+                  
+              
+                  <li><a href="#_2">计费说明</a></li>
+                  
+              
+                  <li><a href="#_3">部署架构</a></li>
+                  
+              
+                  <li><a href="#ram">RAM账号所需权限</a></li>
+                  
+              
+                  <li><a href="#_4">部署流程</a></li>
+                  
+                      <li class="li-h3"><a href="#_5">部署步骤</a></li>
+                  
+                      <li class="li-h3"><a href="#_6">部署参数说明</a></li>
+                  
+                      <li class="li-h3"><a href="#_7">验证结果</a></li>
+                  
+              
+                  <li><a href="#_8">帮助文档</a></li>
+                  
+              
+          
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="content theme-github">
+      
+      <div class="content-inner">        
+        
+        <h1 id="saltstack">SaltStack服务实例部署文档</h1>
+<h2 id="_1">概述</h2>
+<p>Salt基于Python构建，是一个事件驱动的自动化工具和框架，用于部署、配置和管理复杂的IT系统。使用Salt来自动化公共基础设施管理任务，并确保基础设施的所有组件都以一致的期望状态运行。</p>
+<p>Salt在配置管理上就有很多的用途，包括:</p>
+<ul>
+<li>管理操作系统的部署和配置；</li>
+<li>安装和配置软件应用程序和服务；</li>
+<li>管理服务器、虚拟机、容器、数据库、web服务器、网络设备等；</li>
+<li>确保配置的一致性，防止配置漂移。</li>
+</ul>
+<p>Salt是配置管理的理想选择，因为它是可插拔的、可定制的，并且可以很好地与许多现有技术兼容。Salt使您能够部署和管理应用程序，这些应用程序使用运行在几乎任何操作系统上的任何技术栈，包括不同类型的网络设备，如来自各种供应商的交换机和路由器。</p>
+<p>除了配置管理，Salt还可以:</p>
+<ul>
+<li>自动化和编排例程IT处理，例如调度服务器停机时间或升级操作系统或应用程序所需的常见任务；</li>
+<li>创建具有自我意识的、自我修复的系统，能够自动响应中断、常见管理问题或其他重要事件。</li>
+</ul>
+<p>本文向您介绍如何开通计算巢上的Salt服务，以及部署流程和使用说明。</p>
+<h2 id="_2">计费说明</h2>
+<p>Salt在计算巢上的费用主要涉及：</p>
+<ul>
+<li>所选vCPU与内存规格</li>
+<li>系统盘类型及容量</li>
+</ul>
+<p>预估费用在创建实例时可实时看到。</p>
+<h2 id="_3">部署架构</h2>
+<p>参见主页描述。</p>
+<h2 id="ram">RAM账号所需权限</h2>
+<p>Salt服务需要对ECS、VPC等资源进行访问和创建操作，若您使用RAM用户创建服务实例，需要在创建服务实例前，对使用的RAM用户的账号添加相应资源的权限。添加RAM权限的详细操作，请参见<a href="https://help.aliyun.com/document_detail/121945.html">为RAM用户授权</a>。所需权限如下表所示。</p>
+<table>
+<thead>
+<tr>
+<th>权限策略名称</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AliyunECSFullAccess</td>
+<td>管理云服务器服务（ECS）的权限</td>
+</tr>
+<tr>
+<td>AliyunVPCFullAccess</td>
+<td>管理专有网络（VPC）的权限</td>
+</tr>
+<tr>
+<td>AliyunROSFullAccess</td>
+<td>管理资源编排服务（ROS）的权限</td>
+</tr>
+<tr>
+<td>AliyunComputeNestUserFullAcces</td>
+<td>管理计算巢服务（ComputeNest）的用户侧权限</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_4">部署流程</h2>
+<h3 id="_5">部署步骤</h3>
+<p>单击<a href="https://computenest.console.aliyun.com/service/instance/create/cn-hangzhou?type=user&amp;ServiceId=service-a672bb7a007945619bfb&amp;ServiceVersion=draft">部署链接</a>，进入服务实例部署界面，根据界面提示，填写参数完成部署。</p>
+<h3 id="_6">部署参数说明</h3>
+<p>您在创建服务实例的过程中，需要配置服务实例信息。下文介绍SaltStack服务实例输入参数的详细信息。</p>
+<table>
+<thead>
+<tr>
+<th>参数组</th>
+<th>示例</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>服务实例名称</td>
+<td>salt-xxxx</td>
+<td>实例的名称（可使用默认值，无需修改）</td>
+</tr>
+<tr>
+<td>地域</td>
+<td>华北2（北京）</td>
+<td>选中服务实例的地域，建议就近选中，以获取更短的网络时延</td>
+</tr>
+<tr>
+<td>Minion节点数量</td>
+<td>2</td>
+<td>扮演Minion节点的主机数量</td>
+</tr>
+<tr>
+<td>ECS实例规格</td>
+<td>ecs.g6.large</td>
+<td>Master节点与Minion节点主机的实例规格</td>
+</tr>
+<tr>
+<td>系统盘类型</td>
+<td>cloud_essd</td>
+<td>Master节点与Minion节点主机的系统盘类型</td>
+</tr>
+<tr>
+<td>可用区</td>
+<td>可用区G</td>
+<td>Master节点与Minion节点主机部署的可用区</td>
+</tr>
+<tr>
+<td>ECS实例密码</td>
+<td>Test123456</td>
+<td>登陆ECS实例需要的密码</td>
+</tr>
+<tr>
+<td>是否新建VPC和VSwitch</td>
+<td></td>
+<td>若勾选该按钮，则会自动创建一个VPC实例和一个VSwitch实例；若不勾选该按钮，则需要选择已有的VPC实例ID与VSwitch实例ID</td>
+</tr>
+</tbody>
+</table>
+<h3 id="_7">验证结果</h3>
+<ol>
+<li>查看服务实例。服务实例创建成功后，部署时间大约需要5分钟。部署完成后，页面上可以看到对应的服务实例。 </li>
+<li>通过服务实例访问salt-master主机实例，使用密码登录。</li>
+<li>通过以下命令确保SaltStack安装成功：</li>
+</ol>
+<p>```shell
+   [root@i-master ~]# salt --version
+    salt 3005.4</p>
+<p>[root@iZbp1fro523s3ndnxxjuo9Z ~]# salt-key
+   Accepted Keys:
+   ${your minion ecs instance ids here}
+   Denied Keys:
+   Unaccepted Keys:
+   Rejected Keys:</p>
+<p>[root@iZbp1fro523s3ndnxxjuo9Z ~]# salt '*' test.ping
+   ${your minion ecs instance ids here}:
+   True
+   ```</p>
+<h2 id="_8">帮助文档</h2>
+<p>请访问Salt官网文档获取更多使用帮助：<a href="https://docs.saltproject.io/en/latest/contents.html">使用文档</a></p>
+        
+      </div>
+
+      <div class="copyrights">© 2009-2022 Aliyun.com 版权所有</div>
+    </div>
+  </div>
+  
+  <!--
+  MkDocs version      : 1.5.3
+  Docs Build Date UTC : 2023-11-23 08:18:26.709232+00:00
+  -->
+</body>
+</html>
