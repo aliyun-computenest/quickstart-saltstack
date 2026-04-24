@@ -133,18 +133,18 @@
     </ol>
 
     <pre><code>[root@i-master ~]# salt --version
- salt 3005.4
-
-[root@iZbp1fro523s3ndnxxjuo9Z ~]# salt-key
-Accepted Keys:
-${your minion ecs instance ids here}
-Denied Keys:
-Unaccepted Keys:
-Rejected Keys:
-
-[root@iZbp1fro523s3ndnxxjuo9Z ~]# salt '*' test.ping
-${your minion ecs instance ids here}:
-    True</code></pre>
+                 salt 3005.4
+                
+                [root@iZbp1fro523s3ndnxxjuo9Z ~]# salt-key
+                Accepted Keys:
+                ${your minion ecs instance ids here}
+                Denied Keys:
+                Unaccepted Keys:
+                Rejected Keys:
+                
+                [root@iZbp1fro523s3ndnxxjuo9Z ~]# salt '*' test.ping
+                ${your minion ecs instance ids here}:
+                    True</code></pre>
 
     <h2>Help Documentation</h2>
     <p>Please visit the official Salt documentation for more usage assistance: <a href="https://docs.saltproject.io/en/latest/contents.html" target="_blank">Usage Documentation</a>.</p>
