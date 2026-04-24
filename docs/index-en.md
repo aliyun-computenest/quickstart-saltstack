@@ -129,6 +129,7 @@
     <ol>
         <li><strong>View Service Instance:</strong> After the service instance is successfully created, the deployment takes approximately 5 minutes. Once completed, the corresponding service instance will be visible on the page.</li>
         <li><strong>Access Salt-Master:</strong> Access the salt-master host instance via the service instance and log in using the password.</li>
+
         <li><strong>Verify SaltStack Installation:</strong> Ensure SaltStack is installed successfully by running the following commands:</li>
     </ol>
 
