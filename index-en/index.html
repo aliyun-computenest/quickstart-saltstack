@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="计算巢是阿里云开放给企业应用服务商的服务管理平台。服务商能够在计算巢上发布私有化部署服务，为其客户提供云上软件一键部署的能力；同时也支持全托管模式的服务，赋能服务商托管其客户资源。">
+  <title>SaltStack Service Instance Deployment Documentation - Aliyun 计算巢 x Demo</title>
+
+  <link rel="shortcut icon" href="../img/favicon.ico">
+
+  <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+  <link rel="stylesheet" href="../css/theme.css">
+  
+
+  
+
+  
+  
+
+  
+    <script src="../search/main.js"></script>
+  
+
+  
+
+  <script src="../js/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+</head>
+
+<body>
+  <div class="container">
+    <div class="nav">
+      <div class="nav-inner">
+        <div class="logo">
+          <img src="./img/logo-2x.png">
+        </div>
+        <div class="nav-list">
+          <ul>
+          
+              <li><a href="#saltstack-service-instance-deployment-documentation">SaltStack Service Instance Deployment Documentation</a></li>
+              
+                  <li><a href="#overview">Overview</a></li>
+                  
+              
+                  <li><a href="#billing-information">Billing Information</a></li>
+                  
+              
+                  <li><a href="#deployment-architecture">Deployment Architecture</a></li>
+                  
+              
+                  <li><a href="#required-permissions-for-ram-accounts">Required Permissions for RAM Accounts</a></li>
+                  
+              
+                  <li><a href="#deployment-process">Deployment Process</a></li>
+                  
+                      <li class="li-h3"><a href="#deployment-steps">Deployment Steps</a></li>
+                  
+                      <li class="li-h3"><a href="#deployment-parameter-description">Deployment Parameter Description</a></li>
+                  
+                      <li class="li-h3"><a href="#verification-results">Verification Results</a></li>
+                  
+              
+                  <li><a href="#help-documentation">Help Documentation</a></li>
+                  
+              
+          
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="content theme-github">
+      
+      <div class="content-inner">        
+        
+        <h1 id="saltstack-service-instance-deployment-documentation">SaltStack Service Instance Deployment Documentation</h1>
+<h2 id="overview">Overview</h2>
+<p>Salt is an event-driven automation tool and framework built on Python, used for deploying, configuring, and managing complex IT systems. Use Salt to automate public infrastructure management tasks and ensure that all components of the infrastructure run in a consistent desired state.</p>
+<p>Salt has many uses in configuration management, including:</p>
+<ul>
+<li>Managing operating system deployment and configuration;</li>
+<li>Installing and configuring software applications and services;</li>
+<li>Managing servers, virtual machines, containers, databases, web servers, network devices, etc.;</li>
+<li>Ensuring configuration consistency and preventing configuration drift.</li>
+</ul>
+<p>Salt is an ideal choice for configuration management because it is pluggable, customizable, and compatible with many existing technologies. Salt enables you to deploy and manage applications using any technology stack running on almost any operating system, including different types of network devices such as switches and routers from various vendors.</p>
+<p>In addition to configuration management, Salt can also:</p>
+<ul>
+<li>Automate and orchestrate routine IT processes, such as scheduling server downtime or common tasks required for upgrading operating systems or applications;</li>
+<li>Create self-aware, self-healing systems capable of automatically responding to interruptions, common management issues, or other important events.</li>
+</ul>
+<p>This document introduces how to activate the Salt service on Compute Nest, along with the deployment process and usage instructions.</p>
+<h2 id="billing-information">Billing Information</h2>
+<p>The costs for Salt on Compute Nest mainly involve:</p>
+<ul>
+<li>The selected vCPU and memory specifications;</li>
+<li>The system disk type and capacity.</li>
+</ul>
+<p>Estimated costs can be viewed in real-time during instance creation.</p>
+<h2 id="deployment-architecture">Deployment Architecture</h2>
+<p>See the homepage description.</p>
+<h2 id="required-permissions-for-ram-accounts">Required Permissions for RAM Accounts</h2>
+<p>The Salt service requires access and creation operations for resources such as ECS and VPC. If you use a RAM user to create a service instance, you must add the corresponding resource permissions to the RAM user account before creating the service instance. For detailed operations on adding RAM permissions, please refer to <a href="https://help.aliyun.com/document_detail/121945.html">Authorize RAM Users</a>. The required permissions are listed in the table below.</p>
+<table>
+<thead>
+<tr>
+<th>Permission Policy Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AliyunECSFullAccess</td>
+<td>Permission to manage Elastic Compute Service (ECS)</td>
+</tr>
+<tr>
+<td>AliyunVPCFullAccess</td>
+<td>Permission to manage Virtual Private Cloud (VPC)</td>
+</tr>
+<tr>
+<td>AliyunROSFullAccess</td>
+<td>Permission to manage Resource Orchestration Service (ROS)</td>
+</tr>
+<tr>
+<td>AliyunComputeNestUserFullAccess</td>
+<td>User-side permission to manage Compute Nest service</td>
+</tr>
+</tbody>
+</table>
+<h2 id="deployment-process">Deployment Process</h2>
+<h3 id="deployment-steps">Deployment Steps</h3>
+<p>Click the <a href="https://computenest.console.aliyun.com/service/instance/create/cn-hangzhou?type=user&amp;ServiceId=service-a672bb7a007945619bfb&amp;ServiceVersion=draft">Deployment Link</a> to enter the service instance deployment interface. Follow the prompts on the interface to fill in the parameters and complete the deployment.</p>
+<h3 id="deployment-parameter-description">Deployment Parameter Description</h3>
+<p>During the process of creating a service instance, you need to configure the service instance information. The following section details the input parameters for the SaltStack service instance.</p>
+<table>
+<thead>
+<tr>
+<th>Parameter Group</th>
+<th>Example</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Service Instance Name</td>
+<td>salt-xxxx</td>
+<td>The name of the instance (default value can be used, no modification needed)</td>
+</tr>
+<tr>
+<td>Region</td>
+<td>China (Beijing)</td>
+<td>Select the region for the service instance. It is recommended to select the nearest region to obtain lower network latency.</td>
+</tr>
+<tr>
+<td>Minion Node Count</td>
+<td>2</td>
+<td>The number of host instances acting as Minion nodes</td>
+</tr>
+<tr>
+<td>ECS Instance Type</td>
+<td>ecs.g6.large</td>
+<td>The instance specification for both Master and Minion node hosts</td>
+</tr>
+<tr>
+<td>System Disk Type</td>
+<td>cloud_essd</td>
+<td>The system disk type for both Master and Minion node hosts</td>
+</tr>
+<tr>
+<td>Zone</td>
+<td>Zone G</td>
+<td>The availability zone where Master and Minion node hosts are deployed</td>
+</tr>
+<tr>
+<td>ECS Instance Password</td>
+<td>Test123456</td>
+<td>The password required to log in to the ECS instances</td>
+</tr>
+<tr>
+<td>Create New VPC and VSwitch</td>
+<td></td>
+<td>If checked, a VPC instance and a VSwitch instance will be automatically created. If unchecked, you need to select an existing VPC instance ID and VSwitch instance ID.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="verification-results">Verification Results</h3>
+<ol>
+<li><strong>View Service Instance:</strong> After the service instance is successfully created, the deployment takes approximately 5 minutes. Once completed, the corresponding service instance will be visible on the page.</li>
+<li><strong>Access Salt-Master:</strong> Access the salt-master host instance via the service instance and log in using the password.</li>
+<li><strong>Verify SaltStack Installation:</strong> Ensure SaltStack is installed successfully by running the following commands:</li>
+</ol>
+<h2 id="help-documentation">Help Documentation</h2>
+<p>Please visit the official Salt documentation for more usage assistance: <a href="https://docs.saltproject.io/en/latest/contents.html">Usage Documentation</a>.</p>
+        
+      </div>
+
+      <div class="copyrights">© 2009-2022 Aliyun.com 版权所有</div>
+    </div>
+  </div>
+  
+  <!--
+  MkDocs version      : 1.6.1
+  Docs Build Date UTC : 2026-04-24 08:11:22.244935+00:00
+  -->
+</body>
+</html>
